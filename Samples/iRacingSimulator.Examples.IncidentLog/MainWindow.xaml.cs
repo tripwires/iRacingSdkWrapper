@@ -71,12 +71,15 @@ namespace iRacingSimulator.Examples.IncidentLog
                 var driver = kvp.Value;
 
                 var prevInc = 0;
-                if (oldDict.ContainsKey(id))
+                if (oldDict.ContainsKey(id) && null != oldDict[id].CurrentResults)
                 {
                     prevInc = oldDict[id].CurrentResults.Incidents;
                 }
-
-                var delta = driver.CurrentResults.Incidents - prevInc;
+                var delta = 0;
+                if (driver.CurrentResults != null)
+                {
+                    delta = driver.CurrentResults.Incidents - prevInc;
+                }
                 if (delta > 0)
                 {
                     _incidents.Add(new Incident(driver, type, time, delta));
